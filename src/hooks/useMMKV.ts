@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import API from '../api';
-import { methods } from './constants';
-import { getDataType, getInitialValue } from './functions';
+import { DataTypeHandler, handlers } from './constants';
+import { getDataType, getInitialValue, getInitialValueType } from './functions';
 
 /**
  * A helper function which returns `useMMKVStorage` hook with a storage instance set.
@@ -62,8 +62,8 @@ export const useMMKVStorage = <T>(
   storage: API,
   defaultValue: any
 ): [value: T | null | undefined, setValue: (value: T) => void] => {
-  const getValue = useCallback(getInitialValue(key, storage, 'value'), [key, storage]);
-  const getValueType = useCallback(getInitialValue(key, storage, 'type'), [key, storage]);
+  const getValue = useCallback(getInitialValue<T>(key, storage), [key, storage]);
+  const getValueType = useCallback(getInitialValueType(key, storage), [key, storage]);
 
   const [value, setValue] = useState<T | null | undefined>(getValue);
   const [valueType, setValueType] = useState(getValueType);
@@ -99,9 +99,8 @@ export const useMMKVStorage = <T>(
 
   const updateValue = useCallback(event => {
     let type = getDataType(event.value);
-    if (!type) return;
-    //@ts-ignore
-    let _value = event.value ? methods[type]['copy'](event.value) : null;
+    const handler = type && (handlers[type] as DataTypeHandler<T>);
+    let _value = event.value && handler ? handler.copy(event.value) : null;
     setValue(_value);
     setValueType(type);
   }, []);
@@ -118,8 +117,8 @@ export const useMMKVStorage = <T>(
         updatedValue = nextValue(prevValue.current || defaultValue);
       }
 
-      let _value: T;
-      let _valueType: string | null = valueType;
+      let _value: T | undefined;
+      let _valueType = valueType;
       if (updatedValue === null || updatedValue === undefined) {
         storage.removeItem(key);
         _valueType = null;
@@ -137,10 +136,9 @@ export const useMMKVStorage = <T>(
           _valueType = _dataType;
         }
         _value = updatedValue;
-        //@ts-ignore
-        storage[methods[_valueType]['set']](key, _value);
+        const handler = _valueType ? handlers[_valueType] : null;
+        handler?.setter(storage)(key, _value);
       }
-      //@ts-ignore
       setValue(_value);
       setValueType(_valueType);
       return;

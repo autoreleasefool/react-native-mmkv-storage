@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import API from '../api';
-import { DataType } from '../types';
-import { methods } from './constants';
-
-type GenericValueType<T> = [key: string, value: T | null | undefined];
+import { DataType, GenericReturnType } from '../types';
+import { DataTypeHandler, handlers } from './constants';
 
 /**
  * A hook that will take an array of keys and returns an array of values for those keys.
@@ -13,9 +11,9 @@ type GenericValueType<T> = [key: string, value: T | null | undefined];
  *
  * ```tsx
  * import MMKVStorage from "react-native-mmkv-storage"
- * 
+ *
  * const storage = new MMKVStorage.Loader().initialize();
- * 
+ *
  * const App = () => {
     const postsIndex = useMMKVStorage("postsIndex",MMKV,[]);
     const [posts] = useIndex(postsIndex,"object" MMKV);
@@ -47,15 +45,15 @@ export const useIndex = <T>(
   update: (key: string, value: T) => void,
   remove: (key: string) => void
 ] => {
-  const [values, setValues] = useState<GenericValueType<T>[]>(
+  const [values, setValues] = useState<GenericReturnType<T>[]>(
     storage.getMultipleItems(keys || [], type)
   );
 
   const onChange = useCallback(({ key }) => {
     setValues(values => {
+      const handler = handlers[type] as DataTypeHandler<T>;
       let index = values.findIndex(v => v[0] === key);
-      //@ts-ignore
-      let value = storage[methods[type]['get']](key);
+      let value = handler.getter(storage)(key);
       if (value) {
         if (index !== -1) {
           values[index][1] = value;
@@ -82,8 +80,8 @@ export const useIndex = <T>(
 
   const update = useCallback((key, value) => {
     if (!value) return remove(key);
-    //@ts-ignore
-    storage[methods[type]['set']](key, value);
+    const handler = handlers[type] as DataTypeHandler<T>;
+    handler.setter(storage)(key, value);
   }, []);
 
   const remove = useCallback(key => {

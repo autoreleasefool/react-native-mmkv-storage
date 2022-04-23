@@ -1,31 +1,50 @@
+import { DataType } from 'src/types';
 import API from '../api';
-import { methods, types } from './constants';
-export const getDataType = (value: any) => {
+import { handlers } from './constants';
+
+export const getDataType = (value: any): DataType | null => {
   if (value === null || value === undefined) return null;
-  let type = Array.isArray(value) ? 'array' : typeof value;
-  return type;
+  if (Array.isArray(value)) return 'array';
+  let type = typeof value;
+  switch (type) {
+    case 'boolean':
+    case 'number':
+    case 'object':
+    case 'string':
+      return type;
+    case 'bigint':
+    case 'function':
+    case 'symbol':
+    case 'undefined':
+      return null;
+  }
 };
 
-export const getInitialValue =
-  (key: string, storage: API, initialValueType: 'type' | 'value') => () => {
-    if (!storage?.indexer) {
-      return null;
-    }
-    let indexer = storage.indexer;
-    if (indexer.hasKey(key)) {
-      for (let i = 0; i < types.length; i++) {
-        let type: string = types[i];
-        //@ts-ignore
-        if (indexer[methods[type].indexer].hasKey(key)) {
-          if (initialValueType === 'value') {
-            //@ts-ignore
-            return storage[methods[type]['get']](key);
-          }
-          if (initialValueType === 'type') {
-            return type;
-          }
+export const getInitialValue = <T>(key: string, storage: API): (() => T | null) => {
+  return getInitialProperty(key, storage, 'value');
+};
+
+export const getInitialValueType = (key: string, storage: API): (() => DataType | null) => {
+  return getInitialProperty(key, storage, 'type');
+};
+
+const getInitialProperty = (key: string, storage: API, property: 'type' | 'value') => () => {
+  if (!storage?.indexer) {
+    return null;
+  }
+  let indexer = storage.indexer;
+  if (indexer.hasKey(key)) {
+    let type: string;
+    for (type in handlers) {
+      const dataIndex = handlers[type].dataIndexer(indexer);
+      if (dataIndex.hasKey(key)) {
+        if (property === 'value') {
+          return handlers[type].getter(storage)(key);
+        } else {
+          return type;
         }
       }
     }
-    return null;
-  };
+  }
+  return null;
+};
