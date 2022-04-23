@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { methods } from './constants';
-import { getDataType, getInitialValue } from './functions';
+import { handlers } from './constants';
+import { getDataType, getInitialValue, getInitialValueType } from './functions';
 /**
  * A helper function which returns `useMMKVStorage` hook with a storage instance set.
  *
@@ -91,8 +91,8 @@ export var create = function (storage) {
  * @returns `[value,setValue]`
  */
 export var useMMKVStorage = function (key, storage, defaultValue) {
-    var getValue = useCallback(getInitialValue(key, storage, 'value'), [key, storage]);
-    var getValueType = useCallback(getInitialValue(key, storage, 'type'), [key, storage]);
+    var getValue = useCallback(getInitialValue(key, storage), [key, storage]);
+    var getValueType = useCallback(getInitialValueType(key, storage), [key, storage]);
     var _a = useState(getValue), value = _a[0], setValue = _a[1];
     var _b = useState(getValueType), valueType = _b[0], setValueType = _b[1];
     var prevKey = usePrevious(key);
@@ -121,15 +121,13 @@ export var useMMKVStorage = function (key, storage, defaultValue) {
     }, [prevKey, key, prevStorage, storage, getValue, getValueType]);
     var updateValue = useCallback(function (event) {
         var type = getDataType(event.value);
-        if (!type)
-            return;
-        //@ts-ignore
-        var _value = event.value ? methods[type]['copy'](event.value) : null;
+        var handler = type && handlers[type];
+        var _value = event.value && handler ? handler.copy(event.value) : null;
         setValue(_value);
         setValueType(type);
     }, []);
     var setNewValue = useCallback(function (nextValue) { return __awaiter(void 0, void 0, void 0, function () {
-        var updatedValue, _value, _valueType, _dataType;
+        var updatedValue, _value, _valueType, _dataType, handler;
         return __generator(this, function (_a) {
             updatedValue = nextValue;
             if (typeof nextValue === 'function') {
@@ -156,10 +154,9 @@ export var useMMKVStorage = function (key, storage, defaultValue) {
                     _valueType = _dataType;
                 }
                 _value = updatedValue;
-                //@ts-ignore
-                storage[methods[_valueType]['set']](key, _value);
+                handler = _valueType ? handlers[_valueType] : null;
+                handler === null || handler === void 0 ? void 0 : handler.setter(storage)(key, _value);
             }
-            //@ts-ignore
             setValue(_value);
             setValueType(_valueType);
             return [2 /*return*/];

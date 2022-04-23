@@ -18,46 +18,40 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-export var types = ['string', 'number', 'boolean', 'object', 'array'];
-export var methods = {
-    string: {
-        indexer: 'strings',
-        get: 'getString',
-        set: 'setString',
-        copy: function (value) {
-            return value;
-        }
-    },
-    number: {
-        indexer: 'numbers',
-        get: 'getInt',
-        set: 'setInt',
-        copy: function (value) {
-            return value;
-        }
-    },
-    boolean: {
-        indexer: 'booleans',
-        get: 'getBool',
-        set: 'setBool',
-        copy: function (value) {
-            return value;
-        }
-    },
-    object: {
-        indexer: 'maps',
-        get: 'getMap',
-        set: 'setMap',
-        copy: function (value) {
-            return __assign({}, value);
-        }
-    },
-    array: {
-        indexer: 'arrays',
-        get: 'getArray',
-        set: 'setArray',
-        copy: function (value) {
-            return __spreadArray([], value, true);
-        }
-    }
+var stringHandler = {
+    dataIndexer: function (indexer) { return indexer.strings; },
+    getter: function (storage) { return storage.getString; },
+    setter: function (storage) { return storage.setString; },
+    copy: function (value) { return value; }
+};
+var numberHandler = {
+    dataIndexer: function (indexer) { return indexer.numbers; },
+    getter: function (storage) { return storage.getInt; },
+    setter: function (storage) { return storage.setInt; },
+    copy: function (value) { return value; }
+};
+var booleanHandler = {
+    dataIndexer: function (indexer) { return indexer.booleans; },
+    getter: function (storage) { return storage.getBool; },
+    setter: function (storage) { return storage.setBool; },
+    copy: function (value) { return value; }
+};
+var arrayHandler = {
+    dataIndexer: function (indexer) { return indexer.arrays; },
+    getter: function (storage) { return storage.getArray; },
+    setter: function (storage) { return storage.setArray; },
+    copy: function (value) { return __spreadArray([], value, true); }
+};
+var objectHandler = {
+    dataIndexer: function (indexer) { return indexer.maps; },
+    getter: function (storage) { return storage.getMap; },
+    setter: function (storage) { return storage.setMap; },
+    copy: function (value) { return (__assign({}, value)); }
+};
+export var handlers = {
+    string: stringHandler,
+    number: numberHandler,
+    boolean: booleanHandler,
+    object: objectHandler,
+    array: arrayHandler
 };

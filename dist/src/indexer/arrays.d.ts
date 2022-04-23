@@ -1,7 +1,8 @@
+import { Index } from '../types';
 /**
  * Index of all array values stored in storage
  */
-export default class arrayIndex {
+export default class arrayIndex implements Index {
     instanceID: string;
     constructor(id: string);
     /**
@@ -12,7 +13,7 @@ export default class arrayIndex {
     /**
      * Check if a key exists.
      */
-    hasKey(key: string): boolean | null | undefined;
+    hasKey(key: string): boolean;
     /**
      * Get all arrays from storage.
      */

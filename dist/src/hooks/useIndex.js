@@ -8,7 +8,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { useCallback, useEffect, useState } from 'react';
-import { methods } from './constants';
+import { handlers } from './constants';
 /**
  * A hook that will take an array of keys and returns an array of values for those keys.
  * This is supposed to work in combination with `Transactions`s. When you have build your custom index,
@@ -47,9 +47,9 @@ export var useIndex = function (keys, type, storage) {
     var onChange = useCallback(function (_a) {
         var key = _a.key;
         setValues(function (values) {
+            var handler = handlers[type];
             var index = values.findIndex(function (v) { return v[0] === key; });
-            //@ts-ignore
-            var value = storage[methods[type]['get']](key);
+            var value = handler.getter(storage)(key);
             if (value) {
                 if (index !== -1) {
                     values[index][1] = value;
@@ -76,8 +76,8 @@ export var useIndex = function (keys, type, storage) {
     var update = useCallback(function (key, value) {
         if (!value)
             return remove(key);
-        //@ts-ignore
-        storage[methods[type]['set']](key, value);
+        var handler = handlers[type];
+        handler.setter(storage)(key, value);
     }, []);
     var remove = useCallback(function (key) {
         storage.removeItem(key);

@@ -1,7 +1,8 @@
+import { Index } from '../types';
 /**
  * Index of all string values in storage
  */
-export default class stringsIndex {
+export default class stringsIndex implements Index {
     instanceID: string;
     constructor(id: string);
     /**
@@ -11,7 +12,7 @@ export default class stringsIndex {
     /**
      * Checck if a key exists
      */
-    hasKey(key: string): boolean | null | undefined;
+    hasKey(key: string): boolean;
     /**
      * Get all string values from storage
      */

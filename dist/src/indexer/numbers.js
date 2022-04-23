@@ -63,7 +63,7 @@ var numbersIndex = /** @class */ (function () {
      */
     numbersIndex.prototype.hasKey = function (key) {
         var keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
-        return keys && keys.indexOf(key) > -1;
+        return keys ? keys.indexOf(key) > -1 : false;
     };
     /**
      * Get all numbers from storage

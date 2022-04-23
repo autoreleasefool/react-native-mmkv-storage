@@ -1,7 +1,8 @@
+import { Index } from '../types';
 /**
  * Index of all objects stored in storage.
  */
-export default class mapsIndex {
+export default class mapsIndex implements Index {
     instanceID: string;
     constructor(id: string);
     /**
@@ -12,7 +13,7 @@ export default class mapsIndex {
     /**
      * Check if a key exists.
      */
-    hasKey(key: string): boolean | null | undefined;
+    hasKey(key: string): boolean;
     /**
      * Get all objects stored in storage.
      */

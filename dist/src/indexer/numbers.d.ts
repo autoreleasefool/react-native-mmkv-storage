@@ -1,7 +1,8 @@
+import { Index } from '../types';
 /**
  * Index of all numbers stored in storage.
  */
-export default class numbersIndex {
+export default class numbersIndex implements Index {
     instanceID: string;
     constructor(id: string);
     /**
@@ -12,7 +13,7 @@ export default class numbersIndex {
     /**
      * Check if a key exists
      */
-    hasKey(key: string): boolean | null | undefined;
+    hasKey(key: string): boolean;
     /**
      * Get all numbers from storage
      */

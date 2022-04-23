@@ -62,7 +62,7 @@ var boolIndex = /** @class */ (function () {
      */
     boolIndex.prototype.hasKey = function (key) {
         var keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
-        return keys && keys.indexOf(key) > -1;
+        return keys ? keys.indexOf(key) > -1 : false;
     };
     /**
      * Get all boolean values from storage
