@@ -121,7 +121,6 @@ export default class Loader {
     currentInstancesStatus[this.options.instanceID] = false;
     options[this.options.instanceID] = this.options;
     let instance = new API(this.options.instanceID);
-    //@ts-ignore
     handleAction(null, this.options.instanceID);
     return instance;
   }

@@ -78,9 +78,7 @@ var arrayIndex = /** @class */ (function () {
                             keys = [];
                         var items = [];
                         for (var i = 0; i < keys.length; i++) {
-                            //@ts-ignore
-                            var item = [];
-                            item[0] = keys[i];
+                            var item = [keys[i], null];
                             var array = mmkvJsiModule.getArrayMMKV(keys[i], _this.instanceID);
                             item[1] = array ? JSON.parse(array) : null;
                             items.push(item);

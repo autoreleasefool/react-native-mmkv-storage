@@ -332,11 +332,9 @@ export default class API {
   getMultipleItems = <T>(keys: string[], type: DataType | 'map') => {
     if (!type) type = 'object';
     const func = (): GenericReturnType<T>[] => {
-      //@ts-ignore
       let items: GenericReturnType<T>[] = [];
       for (let i = 0; i < keys.length; i++) {
-        let item = [];
-        item[0] = keys[i];
+        let item: GenericReturnType<unknown> = [keys[i], null];
         switch (type) {
           case 'string':
             item[1] = mmkvJsiModule.getStringMMKV(keys[i], this.instanceID);
@@ -382,8 +380,7 @@ export default class API {
             item[1] = null;
             break;
         }
-        //@ts-ignore
-        items.push(item);
+        items.push(item as GenericReturnType<T>);
       }
       return items;
     };

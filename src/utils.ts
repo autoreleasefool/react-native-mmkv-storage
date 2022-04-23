@@ -42,10 +42,5 @@ export const DATA_TYPES = Object.freeze({
 export const options: { [name: string]: StorageOptions } = {};
 
 export const stringToHex = (input: string) => {
-  let str = '';
-  //@ts-ignore
-  for (const char of input) {
-    str += char.charCodeAt(0).toString(16);
-  }
-  return str;
+  return String(Array(input).map(char => char.charCodeAt(0).toString(16)));
 };

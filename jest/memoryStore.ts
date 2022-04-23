@@ -43,8 +43,7 @@ export const mock = (): boolean => {
     return true;
   };
 
-  //@ts-ignore
-  mmkvJsiModule.setMMKVServiceName = (alias, serviceName) => {
+  mmkvJsiModule.setMMKVServiceName = (_, serviceName) => {
     return serviceName;
   };
 

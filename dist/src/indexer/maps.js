@@ -78,9 +78,7 @@ var mapsIndex = /** @class */ (function () {
                             keys = [];
                         var items = [];
                         for (var i = 0; i < keys.length; i++) {
-                            //@ts-ignore
-                            var item = [];
-                            item[0] = keys[i];
+                            var item = [keys[i], null];
                             var map = mmkvJsiModule.getMapMMKV(keys[i], _this.instanceID);
                             item[1] = map ? JSON.parse(map) : null;
                             items.push(item);

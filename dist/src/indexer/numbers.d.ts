@@ -1,8 +1,8 @@
-import { Index } from '../types';
+import { GenericReturnType, Index } from '../types';
 /**
  * Index of all numbers stored in storage.
  */
-export default class numbersIndex implements Index {
+export default class numbersIndex implements Index<number> {
     instanceID: string;
     constructor(id: string);
     /**
@@ -17,6 +17,6 @@ export default class numbersIndex implements Index {
     /**
      * Get all numbers from storage
      */
-    getAll(): Promise<unknown>;
+    getAll(): Promise<GenericReturnType<number>[]>;
 }
 //# sourceMappingURL=numbers.d.ts.map

@@ -77,10 +77,7 @@ var boolIndex = /** @class */ (function () {
                             keys = [];
                         var items = [];
                         for (var i = 0; i < keys.length; i++) {
-                            var item = [];
-                            item[0] = keys[i];
-                            item[1] = mmkvJsiModule.getBoolMMKV(keys[i], _this.instanceID);
-                            items.push(item);
+                            items.push([keys[i], mmkvJsiModule.getBoolMMKV(keys[i], _this.instanceID)]);
                         }
                         resolve(items);
                     })];

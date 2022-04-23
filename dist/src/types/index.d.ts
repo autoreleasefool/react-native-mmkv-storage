@@ -49,9 +49,10 @@ export declare type StorageOptions = {
 export declare type DataType = 'string' | 'number' | 'object' | 'array' | 'boolean';
 export declare type GenericReturnType<T> = [key: string, value: T | null | undefined];
 export declare type IndexType = 'stringIndex' | 'boolIndex' | 'numberIndex' | 'mapIndex' | 'arrayIndex';
-export interface Index {
+export interface Index<T> {
     hasKey(key: string): boolean;
     getKeys(): Promise<string[] | null | undefined>;
+    getAll(): Promise<GenericReturnType<T>[]>;
 }
 export declare type MMKVJsiModule = {
     setupMMKVInstance: (id: string, mode?: number, cryptKey?: string, path?: string) => boolean;

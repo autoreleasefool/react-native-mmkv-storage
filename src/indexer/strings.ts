@@ -1,11 +1,11 @@
 import { handleAction, handleActionAsync } from '../handlers';
 import mmkvJsiModule from '../module';
-import { Index } from '../types';
+import { GenericReturnType, Index } from '../types';
 const INDEX_TYPE = 'stringIndex';
 /**
  * Index of all string values in storage
  */
-export default class stringsIndex implements Index {
+export default class stringsIndex implements Index<string> {
   instanceID: string;
   constructor(id: string) {
     this.instanceID = id;
@@ -30,15 +30,12 @@ export default class stringsIndex implements Index {
    * Get all string values from storage
    */
   async getAll() {
-    return new Promise(resolve => {
+    return new Promise<GenericReturnType<string>[]>(resolve => {
       let keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
       if (!keys) keys = [];
-      let items = [];
+      let items: GenericReturnType<string>[] = [];
       for (let i = 0; i < keys.length; i++) {
-        let item = [];
-        item[0] = keys[i];
-        item[1] = mmkvJsiModule.getStringMMKV(keys[i], this.instanceID);
-        items.push(item);
+        items.push([keys[i], mmkvJsiModule.getStringMMKV(keys[i], this.instanceID)]);
       }
       resolve(items);
     });

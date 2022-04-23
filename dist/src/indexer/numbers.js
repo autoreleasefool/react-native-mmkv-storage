@@ -78,10 +78,7 @@ var numbersIndex = /** @class */ (function () {
                             keys = [];
                         var items = [];
                         for (var i = 0; i < keys.length; i++) {
-                            var item = [];
-                            item[0] = keys[i];
-                            item[1] = mmkvJsiModule.getNumberMMKV(keys[i], _this.instanceID);
-                            items.push(item);
+                            items.push([keys[i], mmkvJsiModule.getNumberMMKV(keys[i], _this.instanceID)]);
                         }
                         resolve(items);
                     })];

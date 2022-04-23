@@ -114,7 +114,6 @@ var Loader = /** @class */ (function () {
         currentInstancesStatus[this.options.instanceID] = false;
         options[this.options.instanceID] = this.options;
         var instance = new API(this.options.instanceID);
-        //@ts-ignore
         handleAction(null, this.options.instanceID);
         return instance;
     };

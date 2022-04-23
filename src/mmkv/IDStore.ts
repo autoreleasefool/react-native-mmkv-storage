@@ -65,7 +65,7 @@ let blacklist = ['stringIndex'];
  */
 function getAll() {
   let keys = mmkvJsiModule.getAllKeysMMKV(STORE_ID);
-  if (!keys) return [];
+  if (!keys) return {};
   let storeUnits: { [name: string]: StorageInstanceInfo } = {};
   keys.forEach(key => {
     if (!blacklist.includes(key)) {

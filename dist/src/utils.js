@@ -40,11 +40,5 @@ export var DATA_TYPES = Object.freeze({
  */
 export var options = {};
 export var stringToHex = function (input) {
-    var str = '';
-    //@ts-ignore
-    for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
-        var char = input_1[_i];
-        str += char.charCodeAt(0).toString(16);
-    }
-    return str;
+    return String(Array(input).map(function (char) { return char.charCodeAt(0).toString(16); }));
 };

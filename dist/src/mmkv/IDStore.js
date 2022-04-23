@@ -56,7 +56,7 @@ var blacklist = ['stringIndex'];
 function getAll() {
     var keys = mmkvJsiModule.getAllKeysMMKV(STORE_ID);
     if (!keys)
-        return [];
+        return {};
     var storeUnits = {};
     keys.forEach(function (key) {
         if (!blacklist.includes(key)) {

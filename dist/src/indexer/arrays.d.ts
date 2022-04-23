@@ -1,8 +1,8 @@
-import { Index } from '../types';
+import { Index, GenericReturnType } from '../types';
 /**
  * Index of all array values stored in storage
  */
-export default class arrayIndex implements Index {
+export default class arrayIndex implements Index<any[]> {
     instanceID: string;
     constructor(id: string);
     /**
@@ -17,6 +17,6 @@ export default class arrayIndex implements Index {
     /**
      * Get all arrays from storage.
      */
-    getAll<T>(): Promise<unknown>;
+    getAll<T>(): Promise<GenericReturnType<T>[]>;
 }
 //# sourceMappingURL=arrays.d.ts.map

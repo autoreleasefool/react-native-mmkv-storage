@@ -27,7 +27,7 @@ declare function exists(id: string): boolean;
  * Get all the available instances that
  * were loaded since the app was installed.
  */
-declare function getAll(): never[] | {
+declare function getAll(): {
     [name: string]: StorageInstanceInfo;
 };
 /**

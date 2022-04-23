@@ -6,7 +6,7 @@ const INDEX_TYPE = 'arrayIndex';
 /**
  * Index of all array values stored in storage
  */
-export default class arrayIndex implements Index {
+export default class arrayIndex implements Index<any[]> {
   instanceID: string;
   constructor(id: string) {
     this.instanceID = id;
@@ -30,16 +30,13 @@ export default class arrayIndex implements Index {
    * Get all arrays from storage.
    */
   async getAll<T>() {
-    return new Promise(resolve => {
+    return new Promise<GenericReturnType<T>[]>(resolve => {
       let keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
       if (!keys) keys = [];
       let items: GenericReturnType<T>[] = [];
       for (let i = 0; i < keys.length; i++) {
-        //@ts-ignore
-        let item: GenericReturnType = [];
-        item[0] = keys[i];
+        let item: GenericReturnType<T> = [keys[i], null];
         let array = mmkvJsiModule.getArrayMMKV(keys[i], this.instanceID);
-
         item[1] = array ? JSON.parse(array) : null;
         items.push(item);
       }

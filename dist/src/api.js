@@ -215,11 +215,9 @@ var API = /** @class */ (function () {
             if (!type)
                 type = 'object';
             var func = function () {
-                //@ts-ignore
                 var items = [];
                 for (var i = 0; i < keys.length; i++) {
-                    var item = [];
-                    item[0] = keys[i];
+                    var item = [keys[i], null];
                     switch (type) {
                         case 'string':
                             item[1] = mmkvJsiModule.getStringMMKV(keys[i], _this.instanceID);
@@ -269,7 +267,6 @@ var API = /** @class */ (function () {
                             item[1] = null;
                             break;
                     }
-                    //@ts-ignore
                     items.push(item);
                 }
                 return items;

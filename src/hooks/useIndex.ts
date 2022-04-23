@@ -42,7 +42,7 @@ export const useIndex = <T>(
   storage: API
 ): [
   values: (T | null | undefined)[],
-  update: (key: string, value: T) => void,
+  update: (key: string, value?: T | null | undefined) => void,
   remove: (key: string) => void
 ] => {
   const [values, setValues] = useState<GenericReturnType<T>[]>(

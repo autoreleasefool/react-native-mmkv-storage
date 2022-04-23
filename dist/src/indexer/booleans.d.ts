@@ -1,8 +1,8 @@
-import { Index } from '../types';
+import { GenericReturnType, Index } from '../types';
 /**
  * Index of all boolean values stored in storage.
  */
-export default class boolIndex implements Index {
+export default class boolIndex implements Index<boolean> {
     instanceID: string;
     constructor(id: string);
     /**
@@ -16,6 +16,6 @@ export default class boolIndex implements Index {
     /**
      * Get all boolean values from storage
      */
-    getAll(): Promise<unknown>;
+    getAll(): Promise<GenericReturnType<boolean>[]>;
 }
 //# sourceMappingURL=booleans.d.ts.map

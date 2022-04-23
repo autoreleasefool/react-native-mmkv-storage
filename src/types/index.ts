@@ -53,9 +53,10 @@ export type GenericReturnType<T> = [key: string, value: T | null | undefined];
 
 export type IndexType = 'stringIndex' | 'boolIndex' | 'numberIndex' | 'mapIndex' | 'arrayIndex';
 
-export interface Index {
+export interface Index<T> {
   hasKey(key: string): boolean;
   getKeys(): Promise<string[] | null | undefined>;
+  getAll(): Promise<GenericReturnType<T>[]>;
 }
 
 export type MMKVJsiModule = {

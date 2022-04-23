@@ -10,7 +10,7 @@
  * @param action The native function that will be called
  * @param args Arguments for the native function
  */
-export declare function handleAction<T extends (...args: any[]) => any | undefined | null>(action: T, ...args: any[]): ReturnType<T> | undefined | null;
+export declare function handleAction<T extends (...args: any[]) => any | undefined | null>(action: T | null, ...args: any[]): ReturnType<T> | undefined | null;
 /**
  *
  * A handler function used to handle all the

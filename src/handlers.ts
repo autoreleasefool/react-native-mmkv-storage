@@ -13,7 +13,7 @@ import { currentInstancesStatus, initialize } from './initializer';
  * @param args Arguments for the native function
  */
 export function handleAction<T extends (...args: any[]) => any | undefined | null>(
-  action: T,
+  action: T | null,
   ...args: any[]
 ): ReturnType<T> | undefined | null {
   // The last argument is always the instance id.
