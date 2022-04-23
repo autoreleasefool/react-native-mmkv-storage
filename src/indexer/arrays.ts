@@ -1,12 +1,12 @@
 import { handleActionAsync, handleAction } from '../handlers';
 import mmkvJsiModule from '../module';
-import { GenericReturnType } from '../types';
+import { Index, GenericReturnType } from '../types';
 const INDEX_TYPE = 'arrayIndex';
 
 /**
  * Index of all array values stored in storage
  */
-export default class arrayIndex {
+export default class arrayIndex implements Index {
   instanceID: string;
   constructor(id: string) {
     this.instanceID = id;
@@ -24,7 +24,7 @@ export default class arrayIndex {
    */
   hasKey(key: string) {
     let keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
-    return keys && keys.indexOf(key) > -1;
+    return keys ? keys.indexOf(key) > -1 : false;
   }
   /**
    * Get all arrays from storage.

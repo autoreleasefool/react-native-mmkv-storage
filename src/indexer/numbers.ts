@@ -1,11 +1,12 @@
 import { handleActionAsync, handleAction } from '../handlers';
 import mmkvJsiModule from '../module';
+import { Index } from '../types';
 
 const INDEX_TYPE = 'numberIndex';
 /**
  * Index of all numbers stored in storage.
  */
-export default class numbersIndex {
+export default class numbersIndex implements Index {
   instanceID: string;
   constructor(id: string) {
     this.instanceID = id;
@@ -24,7 +25,7 @@ export default class numbersIndex {
    */
   hasKey(key: string) {
     let keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
-    return keys && keys.indexOf(key) > -1;
+    return keys ? keys.indexOf(key) > -1 : false;
   }
 
   /**

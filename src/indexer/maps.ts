@@ -1,12 +1,12 @@
 import { handleActionAsync, handleAction } from '../handlers';
 import mmkvJsiModule from '../module';
-import { GenericReturnType } from '../types';
+import { Index, GenericReturnType } from '../types';
 const INDEX_TYPE = 'mapIndex';
 
 /**
  * Index of all objects stored in storage.
  */
-export default class mapsIndex {
+export default class mapsIndex implements Index {
   instanceID: string;
   constructor(id: string) {
     this.instanceID = id;
@@ -25,7 +25,7 @@ export default class mapsIndex {
    */
   hasKey(key: string) {
     let keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
-    return keys && keys.indexOf(key) > -1;
+    return keys ? keys.indexOf(key) > -1 : false;
   }
 
   /**

@@ -1,11 +1,12 @@
 import { handleActionAsync, handleAction } from '../handlers';
 import mmkvJsiModule from '../module';
+import { Index } from '../types';
 const INDEX_TYPE = 'boolIndex';
 
 /**
  * Index of all boolean values stored in storage.
  */
-export default class boolIndex {
+export default class boolIndex implements Index {
   instanceID: string;
   constructor(id: string) {
     this.instanceID = id;
@@ -22,7 +23,7 @@ export default class boolIndex {
    */
   hasKey(key: string) {
     let keys = handleAction(mmkvJsiModule.getIndexMMKV, INDEX_TYPE, this.instanceID);
-    return keys && keys.indexOf(key) > -1;
+    return keys ? keys.indexOf(key) > -1 : false;
   }
 
   /**
